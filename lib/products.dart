@@ -15,10 +15,12 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>> homePageProducts = [];
   List<Map<String, dynamic>> seasonsspeciallist = [];
 
+  late Future<void> fetchData;
+
   @override
   void initState() {
     super.initState();
-    fetchJsonData();
+    fetchData = fetchJsonData();
   }
 
   Future<void> fetchJsonData() async {
@@ -59,120 +61,135 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.blue,
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              // Rest of your code remains unchanged...
+          child: FutureBuilder<void>(
+            future: fetchData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                return Column(
+                  children: <Widget>[
+                    // Rest of your code remains unchanged...
 
-              // All Time Great Gifts List
-              AppBar(
-                title: Text('All Time Great Gifts List'),
-                automaticallyImplyLeading: false,
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: allTimeGreatGiftsList.length,
-                itemBuilder: (context, index) {
-                  final item = allTimeGreatGiftsList[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      leading: Image.network(item['imagepath']),
-                      title: Text(item['categoryname']),
-                      subtitle: Text(item['category_id']),
+                    // All Time Great Gifts List
+                    AppBar(
+                      title: Text('All Time Great Gifts List'),
+                      automaticallyImplyLeading: false,
                     ),
-                  );
-                },
-              ),
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: allTimeGreatGiftsList.length,
+                      itemBuilder: (context, index) {
+                        final item = allTimeGreatGiftsList[index];
+                        return GestureDetector(
+                          child: ListTile(
+                            leading: Image.network(item['imagepath']),
+                            title: Text(item['categoryname']),
+                            subtitle: Text(item['category_id']),
+                          ),
+                        );
+                      },
+                    ),
 
-              // Home Page Products 1
-              AppBar(
-                title: Text('Home Page Products 1'),
-                automaticallyImplyLeading: false,
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: homePageProducts1.length,
-                itemBuilder: (context, index) {
-                  final item = homePageProducts1[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      leading: Image.network(item['product_zoom_image']),
-                      title: Text(item['product_name']),
-                      subtitle: Text(item['category_id']),
+                    // Home Page Products 1
+                    AppBar(
+                      title: Text('Home Page Products 1'),
+                      automaticallyImplyLeading: false,
                     ),
-                  );
-                },
-              ),
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: homePageProducts1.length,
+                      itemBuilder: (context, index) {
+                        final item = homePageProducts1[index];
+                        return GestureDetector(
+                          child: ListTile(
+                            leading: Image.network(item['product_zoom_image']),
+                            title: Text(item['product_name']),
+                            subtitle: Text(item['category_id']),
+                          ),
+                        );
+                      },
+                    ),
 
-              // Home Page Products
-              AppBar(
-                title: Text('Home Page Products'),
-                automaticallyImplyLeading: false,
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: homePageProducts.length,
-                itemBuilder: (context, index) {
-                  final item = homePageProducts[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      leading: Image.network(item['product_zoom_image']),
-                      title: Text(item['product_name']),
-                      subtitle: Text(item['category_id']),
+                    // Home Page Products
+                    AppBar(
+                      title: Text('Home Page Products'),
+                      automaticallyImplyLeading: false,
                     ),
-                  );
-                },
-              ),
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: homePageProducts.length,
+                      itemBuilder: (context, index) {
+                        final item = homePageProducts[index];
+                        return GestureDetector(
+                          child: ListTile(
+                            leading: Image.network(item['product_zoom_image']),
+                            title: Text(item['product_name']),
+                            subtitle: Text(item['category_id']),
+                          ),
+                        );
+                      },
+                    ),
 
-              // All Categories List
-              AppBar(
-                title: Text('All Categories List'),
-                automaticallyImplyLeading: false,
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: allCategoriesList.length,
-                itemBuilder: (context, index) {
-                  final item = allCategoriesList[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      leading: Image.network(item['image_path']),
-                      title: Text(item['category_name']),
-                      subtitle: Text(item['category_id']),
+                    // All Categories List
+                    AppBar(
+                      title: Text('All Categories List'),
+                      automaticallyImplyLeading: false,
                     ),
-                  );
-                },
-              ),
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: allCategoriesList.length,
+                      itemBuilder: (context, index) {
+                        final item = allCategoriesList[index];
+                        return GestureDetector(
+                          child: ListTile(
+                            leading: Image.network(item['image_path']),
+                            title: Text(item['category_name']),
+                            subtitle: Text(item['category_id']),
+                          ),
+                        );
+                      },
+                    ),
 
-              // Seasons Special List
-              AppBar(
-                title: Text('Seasons Special List'),
-                automaticallyImplyLeading: false,
-              ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: seasonsspeciallist.length,
-                itemBuilder: (context, index) {
-                  final item = seasonsspeciallist[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      leading: Image.network(item['imagepath']),
-                      title: Text(item['categoryname']),
-                      subtitle: Text(item['category_id']),
+                    // Seasons Special List
+                    AppBar(
+                      title: Text('Seasons Special List'),
+                      automaticallyImplyLeading: false,
                     ),
-                  );
-                },
-              ),
-            ],
+                    SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: seasonsspeciallist.length,
+                      itemBuilder: (context, index) {
+                        final item = seasonsspeciallist[index];
+                        return GestureDetector(
+                          child: ListTile(
+                            leading: Image.network(item['imagepath']),
+                            title: Text(item['categoryname']),
+                            subtitle: Text(item['category_id']),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
